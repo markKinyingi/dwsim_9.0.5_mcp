@@ -119,6 +119,23 @@ def find_dwsim_path() -> str:
     )
 
 
+TESTED_DWSIM_VERSION = "9.0.5"
+
+
+def dwsim_version(dwsim_path: str):
+    """File version of DWSIM.exe in that folder (e.g. "9.0.5.0"), or None."""
+    exe = os.path.join(dwsim_path, "DWSIM.exe")
+    if not os.path.isfile(exe):
+        return None
+    try:
+        import win32api
+        info = win32api.GetFileVersionInfo(exe, "\\")
+        ms, ls = info["FileVersionMS"], info["FileVersionLS"]
+        return f"{ms >> 16}.{ms & 0xFFFF}.{ls >> 16}.{ls & 0xFFFF}"
+    except Exception:
+        return None
+
+
 def _property_type_enum():
     """Best-effort lookup of DWSIM's PropertyType enum -- its exact
     namespace has varied slightly across DWSIM versions in the past, so

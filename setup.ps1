@@ -54,6 +54,16 @@ if (-not $DwsimPath) {
     if ($LASTEXITCODE -ne 0 -or -not $DwsimPath) { throw "DWSIM (classic, .NET Framework build) wasn't found. Install it or pass -DwsimPath <folder>." }
 }
 Write-Host "    $DwsimPath"
+$exe = Join-Path $DwsimPath "DWSIM.exe"
+$dwsimVersion = if (Test-Path $exe) { (Get-Item $exe).VersionInfo.FileVersion } else { $null }
+if (-not $dwsimVersion) {
+    Write-Host "    WARNING: couldn't read the DWSIM version." -ForegroundColor Yellow
+} elseif ($dwsimVersion -like "9.0.5*") {
+    Write-Host "    DWSIM $dwsimVersion (tested version)"
+} else {
+    Write-Host "    WARNING: DWSIM $dwsimVersion -- this project was developed and tested with DWSIM 9.0.5." -ForegroundColor Yellow
+    Write-Host "    It may work, but if something fails please mention the version when reporting it." -ForegroundColor Yellow
+}
 while (Get-Process DWSIM -ErrorAction SilentlyContinue) {
     Read-Host "    DWSIM is open -- close it, then press Enter to continue"
 }

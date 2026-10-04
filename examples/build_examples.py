@@ -29,6 +29,8 @@ from mcp.client.stdio import stdio_client
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+from sanitize_dwxmz import sanitize  # noqa: E402
 SERVER = os.path.join(ROOT, "server.py")
 RESULTS = os.path.join(HERE, "results")
 ORIGINAL = os.path.join(HERE, "01_water_ethanol_mixing.dwxmz")
@@ -180,6 +182,18 @@ async def main():
             checks.append(bool(solved.get("solved")))
             await call("export_compound", simulation_id=sid, name="My Toluene", file_path=os.path.join(RESULTS, "my_toluene.json"))
             await call("save_simulation", simulation_id=sid, file_path=p("06_custom_compounds.dwxmz"))
+
+            # Strip personal metadata DWSIM saves in the files (paths with your
+            # user name, COMPUTER\user author, messages log), then make sure
+            # every example still opens and solves.
+            print("--  removing personal metadata from the example files")
+            for name in sorted(os.listdir(HERE)):
+                if name.endswith(".dwxmz"):
+                    sanitize(p(name))
+                    sid = (await call("open_simulation", file_path=p(name), mode="background"))["simulation_id"]
+                    ok = bool((await call("calculate_flowsheet", simulation_id=sid)).get("solved"))
+                    checks.append(ok)
+                    print(f"   {'PASS' if ok else 'FAIL'}  {name} opens and solves after cleaning")
     errlog.close()
 
     print()

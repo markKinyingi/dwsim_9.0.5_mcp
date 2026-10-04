@@ -1,0 +1,69 @@
+name: Bug report
+description: Something doesn't work as described in the README
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Security problems: please use **Security > Report a vulnerability** instead (see SECURITY.md).
+        Before attaching a `.dwxmz`, run `python scripts\sanitize_dwxmz.py <file>` to remove your user name and paths from it.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you asked Claude (or ran), what you expected, and what happened instead. Include the tool name and error message if there was one.
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - Background (DWSIM not open / control off)
+        - Live (DWSIM window with MCP control on)
+        - Setup / installation
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: find-dwsim
+    attributes:
+      label: Output of `python scripts\find_dwsim.py`
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: e.g. Windows 11 23H2
+    validations:
+      required: true
+  - type: input
+    id: dwsim
+    attributes:
+      label: DWSIM version
+      placeholder: e.g. 9.0.5 (Help > About in DWSIM)
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: e.g. 3.13.1
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: MCP client
+      options:
+        - Claude Desktop
+        - Claude Code
+        - Other
+  - type: textarea
+    id: logs
+    attributes:
+      label: Server log (optional)
+      description: Claude Desktop > Settings > Developer > dwsim > Open logs, or `examples\results\server_log.txt` if you ran build_examples.py.
+      render: text

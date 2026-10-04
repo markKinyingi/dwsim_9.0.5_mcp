@@ -14,6 +14,13 @@ classic Automation3 API has a real, documented LoadFlowsheet method.
 import os
 import sys
 
+if sys.platform != "win32":
+    sys.stderr.write(
+        "The DWSIM MCP server only runs on Windows: it drives the classic .NET Framework "
+        "build of DWSIM (Windows-only). On macOS or Linux, run DWSIM and this server inside "
+        "a Windows virtual machine.\n")
+    sys.exit(1)
+
 
 def _protect_stdout():
     """Reserve stdout for MCP messages only.
@@ -46,7 +53,7 @@ from typing import Optional, List, Dict, Any, Union
 from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
 
-from dwsim_bridge import DWSimBridge, find_dwsim_path, fit_cp_polynomial
+from dwsim_bridge import DWSimBridge, find_dwsim_path, fit_cp_polynomial, dwsim_version, TESTED_DWSIM_VERSION
 from units import to_si, to_property_unit, convert_stream_rows
 from reports import write_stream_table, write_table
 
@@ -112,12 +119,20 @@ def locate_dwsim() -> str:
     """Find the classic/.NET-Framework DWSIM installation folder on this
     machine and confirm it's usable."""
     path = _run(find_dwsim_path)
+    version = dwsim_version(path)
+    if version is None:
+        version_note = "DWSIM version: unknown."
+    elif version.startswith(TESTED_DWSIM_VERSION):
+        version_note = f"DWSIM version: {version} (tested)."
+    else:
+        version_note = (f"DWSIM version: {version}. Note: this server was developed and tested with "
+                        f"DWSIM {TESTED_DWSIM_VERSION}; other versions may behave differently.")
     live = _run(lambda: get_bridge().live.available())
     window = ("MCP control is switched ON in a running DWSIM window -- simulations will open live in it."
               if live else
               "No live DWSIM window: either DWSIM isn't running or MCP control is switched off "
               "(Tools > MCP Bridge > Allow MCP control). Simulations will open in background mode.")
-    return f"Found DWSIM at: {path}\n{window}"
+    return f"Found DWSIM at: {path}\n{version_note}\n{window}"
 
 
 @mcp.tool()

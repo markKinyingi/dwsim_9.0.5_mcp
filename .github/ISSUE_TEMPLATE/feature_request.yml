@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest a new tool or an improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What do you want to do in DWSIM through Claude?
+      description: Describe the engineering task, e.g. "set up a distillation column and vary the reflux ratio".
+    validations:
+      required: true
+  - type: textarea
+    id: today
+    attributes:
+      label: What happens today?
+      description: Is it impossible, or possible but awkward with the current tools?
+  - type: textarea
+    id: idea
+    attributes:
+      label: Suggested behaviour (optional)

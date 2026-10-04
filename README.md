@@ -4,6 +4,21 @@ Lets Claude open, build, edit, solve and report on DWSIM process
 simulations on your Windows PC -- either live in a DWSIM window you're
 watching, or in a hidden background copy of DWSIM.
 
+> **Platform:** Windows 10/11 only, tested with **DWSIM 9.0.5** (classic
+> .NET Framework build). macOS/Linux aren't supported -- the classic DWSIM
+> build is Windows-only and the cross-platform build can't be automated
+> from Python; run both inside a Windows virtual machine instead.
+>
+> **Not affiliated with DWSIM.** DWSIM is developed by Daniel Medeiros and
+> contributors (https://dwsim.org). This is an independent project that
+> uses DWSIM's public automation API.
+>
+> **Check the results.** This is an engineering tool driven by an AI
+> assistant. Simulation results depend on the thermodynamic model and data
+> you choose (see the model notes below) -- verify them independently
+> before using them for design, operation or safety decisions. Provided
+> as is, without warranty (see [LICENSE](LICENSE)).
+
 ## Requirements
 
 - **Windows 10/11** (64-bit).
@@ -73,7 +88,9 @@ for). Close DWSIM and Claude Desktop before re-running it.
 | `dwsim_plugin\` | C# source of the DWSIM extender + `build_plugin.ps1` (`bin\` is build output) |
 | `setup.ps1` | One-step setup (see Quick start) |
 | `scripts\configure_claude.py` | Adds the server to Claude Desktop's config |
-| `scriptsind_dwsim.py`, `scripts	est_bridge.py` | Standalone checks without Claude |
+| `scripts| `scripts\find_dwsim.py`, `scripts\test_bridge.py` | Standalone checks without Claude |
+| `scripts\sanitize_dwxmz.py` | Strips personal metadata (your user name in saved paths, author, log) from `.dwxmz` files before sharing |
+| `CHANGELOG.md`, `SECURITY.md`, `.github\` | Release notes, how to report vulnerabilities, issue templates |
 | `examples\` | Example simulations, their results, and `build_examples.py` (end-to-end test) |
 | `package_for_sharing.ps1` | Makes a clean zip of this folder to share |
 
@@ -393,6 +410,23 @@ its `.dwxmz`, so they travel with the file.
   -- the server redirects all of DWSIM's console output to stderr at
   startup so it can't corrupt the MCP message stream on stdout. If you
   see it in Claude Desktop's MCP log, that's expected and harmless.
+
+## Sharing your own simulations
+
+DWSIM saves the file's full path (including your Windows user name), the
+author as `COMPUTER\user`, and a log of the last session inside every
+`.dwxmz`. Before posting a simulation publicly (e.g. with a bug report):
+
+```
+python scripts\sanitize_dwxmz.py path\to\simulation.dwxmz
+```
+
+## Reporting problems
+
+Open an issue using the bug template; it asks for your Windows, DWSIM and
+Python versions and the output of `python scripts\find_dwsim.py`. Security
+issues: please follow [SECURITY.md](SECURITY.md) instead of opening a
+public issue.
 
 ## Licence
 

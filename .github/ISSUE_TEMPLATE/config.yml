@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/markKinyingi/dwsim_9.0.5_mcp/security/advisories/new
+    about: Report security problems privately (see SECURITY.md).
+  - name: DWSIM itself
+    url: https://dwsim.org
+    about: Problems with DWSIM's own behaviour or models belong to the DWSIM project.

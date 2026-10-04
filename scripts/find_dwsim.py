@@ -10,7 +10,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from dwsim_bridge import find_dwsim_path, DWSimBridge  # noqa: E402
+from dwsim_bridge import find_dwsim_path, DWSimBridge, dwsim_version, TESTED_DWSIM_VERSION  # noqa: E402
 
 
 def main():
@@ -18,6 +18,10 @@ def main():
     try:
         path = find_dwsim_path()
         print(f"  Found: {path}")
+        version = dwsim_version(path)
+        note = "" if version and version.startswith(TESTED_DWSIM_VERSION) else \
+            f"  (tested with {TESTED_DWSIM_VERSION}; other versions may differ)"
+        print(f"  Version: {version or 'unknown'}{note}")
     except FileNotFoundError as e:
         print(f"  Not found: {e}")
         print("\nInstall the classic (.NET Framework) DWSIM build, or set DWSIM_PATH to its folder.")
