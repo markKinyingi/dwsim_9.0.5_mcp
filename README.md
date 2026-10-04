@@ -393,3 +393,13 @@ its `.dwxmz`, so they travel with the file.
   -- the server redirects all of DWSIM's console output to stderr at
   startup so it can't corrupt the MCP message stream on stdout. If you
   see it in Claude Desktop's MCP log, that's expected and harmless.
+
+## Licence
+
+This project is released under the [MIT Licence](LICENSE).
+
+DWSIM itself is a separate program licensed under the GNU GPL v3 and is not
+included here; this project only calls its public APIs and builds an
+extender against the DWSIM you install. MIT-licensed code is
+GPL-compatible, but if you redistribute the built extender together with
+DWSIM, DWSIM's GPL terms apply to that combined distribution.
