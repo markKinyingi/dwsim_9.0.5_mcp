@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+# build output -- contains machine-specific paths (allow-list); rebuilt by setup.ps1
+dwsim_plugin/bin/
+# DWSIM backups and logs
+*.bak
+*.bak-*
+examples/results/server_log.txt
+dist/

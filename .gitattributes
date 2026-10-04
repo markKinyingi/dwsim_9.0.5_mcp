@@ -1,0 +1,11 @@
+# Normalise line endings in the repo; check out with Windows line endings
+# where tools care (PowerShell scripts).
+* text=auto
+*.ps1 text eol=crlf
+*.cs text eol=crlf
+
+# DWSIM simulations, compound packages and spreadsheets are binary.
+*.dwxmz binary
+*.dwxml text
+*.xlsx binary
+*.zip binary
