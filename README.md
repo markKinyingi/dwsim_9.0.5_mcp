@@ -1,5 +1,8 @@
 # DWSIM MCP Server
 
+[![Latest release](https://img.shields.io/github/v/release/markKinyingi/dwsim_9.0.5_mcp)](https://github.com/markKinyingi/dwsim_9.0.5_mcp/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Lets Claude open, build, edit, solve and report on DWSIM process
 simulations on your Windows PC -- either live in a DWSIM window you're
 watching, or in a hidden background copy of DWSIM.
@@ -36,6 +39,14 @@ watching, or in a hidden background copy of DWSIM.
 - Internet access only for the optional Cheméo compound lookups.
 
 ## Quick start
+
+0. **Download** the latest release from
+   **[Releases](https://github.com/markKinyingi/dwsim_9.0.5_mcp/releases/latest)**
+   (currently [v0.1.0](https://github.com/markKinyingi/dwsim_9.0.5_mcp/releases/tag/v0.1.0)):
+   under *Assets*, choose **Source code (zip)** and unzip it anywhere --
+   or `git clone https://github.com/markKinyingi/dwsim_9.0.5_mcp.git` to
+   get updates with `git pull`. What changed in each version is in
+   [CHANGELOG.md](CHANGELOG.md).
 
 1. Close DWSIM, then from this folder run:
 
